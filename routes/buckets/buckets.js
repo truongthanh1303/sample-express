@@ -20,6 +20,16 @@ console.log(query)
     res.send(resData);
 });
 
+router.get('/:id', function(req, res, next) {
+    const { id } = req.params;
+    const bucket = mockData.find((bucket) => bucket.id === +id);
+
+    if (!bucket) {
+        res.status(404).send('Bucket not found');
+    }
+    res.send(bucket);
+});
+
 router.post('/', function(req, res, next) {
     try {
         const { nickName } = req.body;
@@ -27,20 +37,40 @@ router.post('/', function(req, res, next) {
             throw new Error('Name is required');
         }
 
-        mockData.unshift({
+        const newBucket = {
             ...req.body,
             id: mockData.length,
             createdAt: new Date().toISOString(),
             createdBy: 'admin',
             modifiedAt: new Date().toISOString(),
             modifiedBy: 'admin',
-        });
+        };
+
+        mockData.unshift(newBucket);
         setTimeout(() => {
-            res.send('Create bucket sucessfully');
+            res.send(newBucket);
         }, 1000);
     } catch (error) {
         res.status(400).send(error.message);
     }
+});
+
+router.put('/:id', function(req, res, next) {
+    const { id } = req.params;
+    const bucketIndex = mockData.findIndex((bucket) => bucket.id === +id);
+    if (bucketIndex === -1) {
+        res.status(404).send('Bucket not found');
+    }
+    const updatedBucket = {
+        ...mockData[bucketIndex],
+        ...req.body,
+        modifiedAt: new Date().toISOString(),
+        modifiedBy: 'admin',
+    };
+    mockData[bucketIndex] = updatedBucket;
+    setTimeout(() => {
+        res.send(updatedBucket);
+    }, 1000);
 });
 
 module.exports = router;
