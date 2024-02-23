@@ -8,6 +8,7 @@ var cors = require('cors')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var bucketsRouter = require('./routes/buckets/buckets');
+var smsInfosRouter = require('./routes/sms-infos');
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/stores', bucketsRouter);
+app.use('/sms-infos', smsInfosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
