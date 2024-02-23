@@ -30,6 +30,29 @@ router.get('/:id', function(req, res, next) {
     res.send(smsInfo);
 });
 
+router.post('/:id/copy', function(req, res, next) {
+    const { id } = req.params;
+    const smsInfo = mockData.find((smsInfo) => smsInfo.id === +id);
+    if (!smsInfo) {
+        res.status(404).send('Sms Info not found');
+    }
+    const newSmsInfo = {
+        ...smsInfo,
+        id: mockData.length,
+        name: `${smsInfo.name} - Copy`,
+        title: `${smsInfo.title} - Copy`,
+        createdAt: new Date().toISOString(),
+        createdBy: 'admin',
+        modifiedAt: new Date().toISOString(),
+        modifiedBy: 'admin',
+    };
+
+    mockData.unshift(newSmsInfo);
+    setTimeout(() => {
+        res.send(newSmsInfo);
+    }, 1000);
+});
+
 router.post('/', function(req, res, next) {
     try {
         const { name } = req.body;
