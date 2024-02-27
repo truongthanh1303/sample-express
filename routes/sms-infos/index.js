@@ -108,7 +108,11 @@ router.put('/:id', function(req, res, next) {
     };
     mockData[smsInfoIndex] = updatedSmsInfo;
     setTimeout(() => {
-        res.send(updatedSmsInfo);
+        res.send({
+            data: updatedSmsInfo,
+            statusCode: 200,
+            statusText: "OK"
+        });
     }, 1000);
 });
 
