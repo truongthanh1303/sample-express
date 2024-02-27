@@ -12,10 +12,14 @@ router.get('/', function(req, res, next) {
     const size = !query || !query?.size ? 10 : query.size;
 
     const resData = {
-        content: mockData.slice(offset, offset + 10),
-        offset,
-        totalPages: Math.ceil(mockData.length / size),
-        totalElements: mockData.length,
+        data: {
+            content: mockData.slice(offset, offset + 10),
+            offset,
+            totalPages: Math.ceil(mockData.length / size),
+            totalElements: mockData.length,
+        },
+        statusCode: 200,
+        statusText: "OK"
     }
     res.send(resData);
 });
@@ -27,7 +31,11 @@ router.get('/:id', function(req, res, next) {
     if (!smsInfo) {
         res.status(404).send('SmsInfo not found');
     }
-    res.send(smsInfo);
+    res.send({
+        data: smsInfo,
+        statusCode: 200,
+        statusText: "OK"
+    });
 });
 
 router.post('/:id/copy', function(req, res, next) {
@@ -49,7 +57,11 @@ router.post('/:id/copy', function(req, res, next) {
 
     mockData.unshift(newSmsInfo);
     setTimeout(() => {
-        res.send(newSmsInfo);
+        res.send({
+            data: newSmsInfo,
+            statusCode: 200,
+            statusText: "OK"
+        });
     }, 1000);
 });
 
@@ -71,7 +83,11 @@ router.post('/', function(req, res, next) {
 
         mockData.unshift(newSmsInfo);
         setTimeout(() => {
-            res.send(newSmsInfo);
+            res.send({
+                data: newSmsInfo,
+                statusCode: 200,
+                statusText: "OK"
+            });
         }, 1000);
     } catch (error) {
         res.status(400).send(error.message);

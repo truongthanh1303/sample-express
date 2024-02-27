@@ -16,7 +16,11 @@ router.get('/', function(req, res, next) {
         totalPages: Math.ceil(mockData.length / size),
         totalElements: mockData.length,
     }
-    res.send(resData);
+    res.send({
+        data: resData,
+        statusCode: 200,
+        statusText: "OK"
+    });
 });
 
 router.get('/:id', function(req, res, next) {
@@ -26,7 +30,11 @@ router.get('/:id', function(req, res, next) {
     if (!bucket) {
         res.status(404).send('Bucket not found');
     }
-    res.send(bucket);
+    res.send({
+        data: bucket,
+        statusCode: 200,
+        statusText: "OK"
+    });
 });
 
 router.post('/', function(req, res, next) {
@@ -47,7 +55,11 @@ router.post('/', function(req, res, next) {
 
         mockData.unshift(newBucket);
         setTimeout(() => {
-            res.send(newBucket);
+            res.send({
+                data: newBucket,
+                statusCode: 200,
+                statusText: "OK"
+            });
         }, 1000);
     } catch (error) {
         res.status(400).send(error.message);
@@ -68,7 +80,11 @@ router.put('/:id', function(req, res, next) {
     };
     mockData[bucketIndex] = updatedBucket;
     setTimeout(() => {
-        res.send(updatedBucket);
+        res.send({
+            data: updatedBucket,
+            statusCode: 200,
+            statusText: "OK"
+        });
     }, 1000);
 });
 
